@@ -35,7 +35,7 @@ day VARCHAR(255)
 INSERT INTO enclosures (name, capacity, closedForMaintenance) VALUES ('big cat field', 20, false);
 INSERT INTO enclosures (name, capacity, closedForMaintenance) VALUES ('giraffe field', 5, true);
 INSERT INTO enclosures (name, capacity, closedForMaintenance) VALUES ('dungeon of reptiles', 130, false);
-INSERT INTO enclosures (name, capacity, closedForMaintenance) VALUES ('gazelle gardens', 40, false);
+INSERT INTO enclosures (name, capacity, closedForMaintenance) VALUES ('gazelle gardens', 40, true);
 INSERT INTO enclosures (name, capacity, closedForMaintenance) VALUES ('elephant beach', 13, false);
 
 INSERT INTO staffs (name, employeeNumber) VALUES ('Tarek', '23456');
@@ -89,3 +89,18 @@ INNER JOIN enclosures
 ON assignments.enclosure_id = enclosures.id
 WHERE enclosures.name = 'giraffe field'; 
 
+--Names of staff working in enclosures where it is closed
+SELECT *
+FROM staffs
+INNER JOIN assignments
+ON staffs.id = assignments.staff_id
+INNER JOIN enclosures
+ON assignments.enclosure_id = enclosures.id
+WHERE enclosures.closedForMaintenance = true;
+
+--Name of enclosure where the oldest animal lives
+SELECT enclosures.name, animals.name, animals.type, animals.age
+FROM enclosures
+RIGHT JOIN animals
+ON animals.enclosure_id = enclosures.id
+ORDER BY animals.age DESC LIMIT 1;
