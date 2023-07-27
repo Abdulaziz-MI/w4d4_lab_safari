@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS staff;
+DROP TABLE IF EXISTS enclourses;
+DROP TABLE IF EXISTS animals;
+DROP TABLE IF EXISTS assignments;
