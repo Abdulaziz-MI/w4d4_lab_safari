@@ -71,3 +71,21 @@ INSERT INTO assignments (staff_id, enclosure_id, day) VALUES (4, 1, 'Wednesday')
 INSERT INTO assignments (staff_id, enclosure_id, day) VALUES (5, 2, 'Thursday');
 INSERT INTO assignments (staff_id, enclosure_id, day) VALUES (6, 5, 'Saturday');
 INSERT INTO assignments (staff_id, enclosure_id, day) VALUES (7, 3, 'Sunday');
+
+
+-- Names of animals in given enclosure (Tigers)
+SELECT *
+FROM animals 
+RIGHT JOIN enclosures
+ON  animals.enclosure_id = enclosures.id
+WHERE enclosures.name = 'big cat field'; 
+
+-- Names of staff in given enclosure (giraffe field)
+SELECT *
+FROM staffs
+INNER JOIN assignments
+ON staffs.id = assignments.staff_id
+INNER JOIN enclosures
+ON assignments.enclosure_id = enclosures.id
+WHERE enclosures.name = 'giraffe field'; 
+
