@@ -73,14 +73,14 @@ INSERT INTO assignments (staff_id, enclosure_id, day) VALUES (6, 5, 'Saturday');
 INSERT INTO assignments (staff_id, enclosure_id, day) VALUES (7, 3, 'Sunday');
 
 
--- Names of animals in given enclosure (Tigers)
+-- -- Names of animals in given enclosure (Tigers)
 SELECT *
 FROM animals 
 RIGHT JOIN enclosures
 ON  animals.enclosure_id = enclosures.id
 WHERE enclosures.name = 'big cat field'; 
 
--- Names of staff in given enclosure (giraffe field)
+-- -- Names of staff in given enclosure (giraffe field)
 SELECT *
 FROM staffs
 INNER JOIN assignments
@@ -89,7 +89,7 @@ INNER JOIN enclosures
 ON assignments.enclosure_id = enclosures.id
 WHERE enclosures.name = 'giraffe field'; 
 
---Names of staff working in enclosures where it is closed
+-- --Names of staff working in enclosures where it is closed
 SELECT *
 FROM staffs
 INNER JOIN assignments
@@ -98,9 +98,36 @@ INNER JOIN enclosures
 ON assignments.enclosure_id = enclosures.id
 WHERE enclosures.closedForMaintenance = true;
 
---Name of enclosure where the oldest animal lives
+-- --Name of enclosure where the oldest animal lives
 SELECT enclosures.name, animals.name, animals.type, animals.age
 FROM enclosures
 RIGHT JOIN animals
 ON animals.enclosure_id = enclosures.id
 ORDER BY animals.age DESC LIMIT 1;
+
+
+-- * The number of different animal types a given keeper has been assigned to work with.
+SELECT COUNT(DISTINCT( animals.type )) FROM staffs
+INNER JOIN assignments
+ON assignments.staff_id = staffs.id
+INNER JOIN enclosures
+ON enclosures.id = assignments.enclosure_id
+INNER JOIN animals
+ON animals.enclosure_id = enclosures.id
+WHERE staffs.name = 'Tarek'
+;
+
+
+-- The number of different keepers who have been assigned to work in enclosure 3
+SELECT COUNT(DISTINCT staffs.name) FROM staffs
+INNER JOIN assignments
+ON staffs.id = assignments.staff_id
+WHERE assignments.enclosure_id = 3;
+
+
+-- The names of the other animals sharing an enclosure with a given animal (eg. find the names of all the animals sharing the big cat field with Tony)
+SELECT roommates.name
+FROM animals AS main_animal
+INNER JOIN enclosures ON main_animal.enclosure_id = enclosures.id
+INNER JOIN animals AS roommates ON enclosures.id = roommates.enclosure_id
+WHERE main_animal.name = 'Tony' AND roommates.name != 'Tony';
